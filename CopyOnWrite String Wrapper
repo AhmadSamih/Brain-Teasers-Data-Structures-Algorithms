@@ -1,0 +1,68 @@
+#include <iostream>
+using namespace std;
+
+struct mystr{
+    string s;
+    int users;
+    mystr(){}
+    mystr(string _s,int _users):s(_s),users(_users){}
+};
+typedef struct mystr * mystr_ptr;
+
+class mystring{
+  mystr_ptr ptr;
+    
+    public:
+    //ctor
+    mystring(string _s){
+        ptr = new mystr(_s, 1);
+        cout<< "in ctor, created a string with value " << ptr->s << endl;
+    }
+    //cctor
+    mystring(const mystring &obj){
+        ptr = obj.ptr;
+        ptr->users++;
+        cout <<"in cctor, pointing to another string " << ptr->s << " with users: " << ptr->users << endl;
+    }
+    //assignmnt operator
+    //same would be done for similar assignment operator/move/LHS/RHS/etc.
+    mystring& operator=(string obj){
+        //detach if not self, then do a deep copy, perform operation
+        if(ptr->users == 1){
+            //self, no need to detach
+            cout << "self, no need to do anything" << endl;
+            ptr->s = obj;
+        }else{
+            cout << "Before detach, old users count " << ptr->users << endl;
+            ptr->users --;
+            ptr = new mystr(obj, 1);
+            cout << "creating a new string " << ptr->s << " with count " << ptr->users << endl;
+        }
+    }
+    ostream& operator<<(ostream& os)
+    {
+        os << ptr->s << endl;
+        return os;
+    }
+
+};
+int main() {
+	mystring A("hello");
+	mystring B("world");
+	mystring E("ok!");
+	
+	mystring C(A);
+	mystring D = B;
+
+	A = "good life";
+	D = "great life";
+	E = "no change";
+	
+	A << cout;
+	B << cout;
+	C << cout;
+	D << cout;
+	E << cout;
+
+	return 0;
+}
