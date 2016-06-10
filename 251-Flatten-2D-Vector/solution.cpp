@@ -13,20 +13,15 @@ public:
     }
 
     int next() {
-        int val = *y;
-        y++; hasNext();//maintain both iterators
-        return val; 
+        return *y++;
     }
 
     bool hasNext() {
-        while(x != vec2d.end()){
-            while(y!=x->end()){
-                return true;
-            }
+        while(x!=vec2d.end() && y==x->end()){
             x++;
             y=x->begin();
         }
-        return false;
+        return (x!=vec2d.end());
     }
 };
 
