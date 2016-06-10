@@ -9,9 +9,8 @@
  */
 class Solution {
 public:
-    TreeNode *head;
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        if(nums.empty()) return head;
+        if(nums.empty()) return NULL;
         return insert(0, nums.size()-1, nums);
     }
     
