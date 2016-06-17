@@ -21,26 +21,20 @@ public:
             reverse(rleft.begin(), rleft.end());
             reverse(rright.begin(), rright.end());
            
-            if(wrd_idx.find(rleft)!= wrd_idx.end() && wrd_idx[rleft]!=i)
-                if(isPalindrome(right)){
-                    set[0] = i;
-                    set[1] = wrd_idx[rleft];
-                    res.push_back(set);
-                }
+            if(wrd_idx.find(rleft)!= wrd_idx.end() && wrd_idx[rleft]!=i && isPalindrome(right)){
+                set[0] = i;
+                set[1] = wrd_idx[rleft];
+                res.push_back(set);
+            }
 
-            if(j!=0 && wrd_idx.find(rright)!= wrd_idx.end() && wrd_idx[rright]!=i)
-                if(isPalindrome(left)){
-                    set[0] = wrd_idx[rright];
-                    set[1] = i;
-                    res.push_back(set);
-                }
- 
-
+            if(j!=0 && wrd_idx.find(rright)!= wrd_idx.end() && wrd_idx[rright]!=i && isPalindrome(left)){
+                set[0] = wrd_idx[rright];
+                set[1] = i;
+                res.push_back(set);
+            }
         }
     }
-
     return res;
-
     }
 
     bool isPalindrome(string s) {
@@ -50,7 +44,6 @@ public:
         while (i < j) {
             if (s[i++] != s[j--]) return false;
         }
-
         return true;
     }
 };
