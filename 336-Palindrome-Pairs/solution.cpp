@@ -38,6 +38,10 @@ public:
     }
 
     bool isPalindrome(string s) {
+        string tmp = s;
+        reverse(tmp.begin(), tmp.end());
+        return (s == tmp);
+        /*
         if (s.size() <= 1) return true;
         size_t i = 0; 
         size_t j = s.size() - 1;
@@ -45,5 +49,6 @@ public:
             if (s[i++] != s[j--]) return false;
         }
         return true;
+        */
     }
 };
