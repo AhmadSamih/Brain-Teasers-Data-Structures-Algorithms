@@ -21,13 +21,13 @@ public:
             reverse(rleft.begin(), rleft.end());
             reverse(rright.begin(), rright.end());
            
-            if(wrd_idx.find(rleft)!= wrd_idx.end() && wrd_idx[rleft]!=i && isPalindrome(right)){
+            if(wrd_idx.find(rleft)!= wrd_idx.end() && wrd_idx[rleft]!=i && (right==rright)){
                 set[0] = i;
                 set[1] = wrd_idx[rleft];
                 res.push_back(set);
             }
 
-            if(j!=0 && wrd_idx.find(rright)!= wrd_idx.end() && wrd_idx[rright]!=i && isPalindrome(left)){
+            if(j!=0 && wrd_idx.find(rright)!= wrd_idx.end() && wrd_idx[rright]!=i && (left==rleft)){
                 set[0] = wrd_idx[rright];
                 set[1] = i;
                 res.push_back(set);
@@ -41,14 +41,5 @@ public:
         string tmp = s;
         reverse(tmp.begin(), tmp.end());
         return (s == tmp);
-        /*
-        if (s.size() <= 1) return true;
-        size_t i = 0; 
-        size_t j = s.size() - 1;
-        while (i < j) {
-            if (s[i++] != s[j--]) return false;
-        }
-        return true;
-        */
     }
 };
