@@ -5,8 +5,8 @@ public:
         int num_chars = 0;
         vector<vector<int>>res;
         vector<string> tmp; if(words.empty()) return tmp;
-        vector<int>indices;
-        vector<int>num_chars_v;
+        vector<int>indices; vector<int>num_chars_v;
+        
         for(int next=0; next<words.size();next+=indices.size()){
             indices.clear();
             num_chars = 0;
@@ -22,16 +22,18 @@ public:
             num_chars_v.push_back(num_chars);
             res.push_back(indices);
         }
+        
         int w_idx=0;
-        for(int i=0;i<res.size();i++){
+        for(int i=0;i<res.size();i++){//go over each line
             int spaces = maxWidth - num_chars_v[i];
             int num_words = res[i].size();
             string s;
+             
              if(num_words==1){
-                s =words[w_idx++]; 
+                s = words[w_idx++]; 
                 int itr=0; while(itr<spaces){s+=" "; itr++;};
                 tmp.push_back(s);
-            }if(num_words >= 2){
+            }else{
                 int per_char_spaces = spaces/(num_words-1);
                 int extra_spaces = spaces - per_char_spaces*(num_words-1);
                 int end_spaces = 0;
