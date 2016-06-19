@@ -5,7 +5,7 @@ public:
       trieNode* n[26];
       string word;
       trieNode(){
-          for(auto &i:n) i = NULL;
+          for(auto &i:n) i = NULL; //note the reference here
       }
     };
     
@@ -24,14 +24,14 @@ public:
     };
 
     vector<string>res;
-    unordered_map<int, unordered_map<int,int>>visited;
+    vector<vector<int>>visited;
     void dfs(int i, int j, trieNode *p, int xdim, int ydim, vector<vector<char>>& board){
         if(visited[i][j]) return;
         
         if(!p->word.empty()){
             res.push_back(p->word);
             p->word.clear();
-            //return;
+           // return;
         }
 
         //traverse all directions
@@ -48,11 +48,14 @@ public:
 
     vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
 
+        if(!board.size() || !board[0].size() || !words.size()) return res;
+        
         trie T;
 
         //fill up the trie
         for(auto &w:words) T.insert(w);
 
+        visited.resize(board.size(), vector<int>(board[0].size(),0));
         for(int i=0 ;i<board.size();i++){
             for(int j=0; j<board[i].size();j++){
                 if(T.head->n[board[i][j] -'a'])
