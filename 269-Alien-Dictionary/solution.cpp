@@ -3,8 +3,8 @@ public:
 
     string res;
     struct vertix{
-        vertix* adj[26];
         char v;
+        vertix* adj[26];
         vertix(char _v){
             for(int i=0; i<26; i++){
                 adj[i] = NULL;
@@ -12,44 +12,44 @@ public:
             v = _v;
         }
     };
+
     unordered_map<int, vertix*>cache;
-    int cycle = 0;
     unordered_set<int>cyc;
-    void topologicalSortUtil(vertix* v, unordered_map<vertix*, bool> &visited, stack<char> &Stack)
+
+    bool topologicalSortUtil(vertix* v, unordered_map<vertix*, bool> &visited, stack<char> &Stack)
     {
-        //how to detect a cycle
-        //cout << v->v << " ";
-        if(cyc.count(v->v)) {cycle=1; return;}
+        if(cyc.count(v->v)) return true;
         
-        if(visited[v]) return;
+        if(visited[v]) return false;
         visited[v] = true; 
         cyc.insert(v->v);
      
         for(int i =0; i<26; i++)
-            if(v->adj[i])
-                topologicalSortUtil(v->adj[i], visited, Stack);
+            if(v->adj[i]){
+             bool cycle = topologicalSortUtil(v->adj[i], visited, Stack);
+             if(cycle)return true;
+            }
     
-        //cout<<endl;
         cyc.erase(v->v);
         Stack.push(v->v);
+        return false;
     }
 
-    void topologicalSort()
+    bool topologicalSort()
     {
         stack<char> Stack;
         unordered_map<vertix*, bool>visited;
 
-        for(auto itr=cache.begin(); itr!=cache.end(); itr++)
-         // if (visited[itr->second] == false)
-         {
-            topologicalSortUtil(itr->second, visited, Stack);
-          }
+        for(auto itr=cache.begin(); itr!=cache.end(); itr++){
+            bool cycle = topologicalSortUtil(itr->second, visited, Stack);
+            if(cycle) return false;
+        }
 
-        while (!Stack.empty())
-        {
+        while (!Stack.empty()){
             res+=Stack.top();
             Stack.pop();
         }
+        return false;
     }
     
     string alienOrder(vector<string>& words) {
@@ -76,7 +76,7 @@ public:
             }
         }
   
-        topologicalSort();
+        bool cycle = topologicalSort();
         if(cycle) return "";
         return res ;
     }
