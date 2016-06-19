@@ -31,7 +31,7 @@ public:
         if(!p->word.empty()){
             res.push_back(p->word);
             p->word.clear();
-           // return;
+            //shouldn't return because this might be a partial word matching.
         }
 
         //traverse all directions
