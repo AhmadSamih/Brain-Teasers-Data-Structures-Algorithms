@@ -2,9 +2,10 @@ class TrieNode {
 public:
     // Initialize your data structure here.
       TrieNode* child[26];
-      string word;
+      bool isword;
       TrieNode(){
           for(auto &i:child) i = NULL; //note the reference here
+          isword = false;
       }
 };
 
@@ -22,7 +23,7 @@ public:
             if(!p->child[c]) p->child[c] = new TrieNode();
             p = p->child[c];
         }
-        p->word = word;
+        p->isword = true;
     }
 
     // Returns if the word is in the trie.
@@ -33,9 +34,7 @@ public:
             if(!p->child[c]) return false;
             p= p->child[c];
         }
-        if(p->word == word)
-            return true;
-        return false;
+        return (p->isword);
     }
 
     // Returns if there is any word in the trie
