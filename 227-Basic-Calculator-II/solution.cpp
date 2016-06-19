@@ -1,44 +1,42 @@
 class Solution {
 public:
     int calculate(string s) {
+        vector<char>ops = {'+'};//inial sign of first number
+        vector<int>nums;
+        stack<int>stk;
         
-        /*stack based solution
-        we push num on the stack, or we push -num based on the sign
-        we keep pushing until we encounter a '*' or '/'. If so, we do op for the current num and top of stack and we push result.
-        */
+        /*tokensize and extract numbers into a vector*/
+        char * dup = strdup(s.c_str());
+        char *token = strtok(dup, "+-/* ");
+        while(token){
+            nums.push_back(atoi(token));
+            token = strtok(NULL, "+-/* ");
+        }
+        free(dup);
+        free(token);
         
-        stack<int> stk;
-        char sign = '+';
-        string tmp="";
-        for(int i=0;i<s.size();i++){
-            if(s[i] == ' ') continue;
-            if(s[i] == '*' || s[i] == '/' || s[i] == '+' || s[i] == '-'){
-                sign = s[i];
-            }else if((i<s.size()-1 && !isdigit(s[i+1])) || i==s.size()-1){
-                tmp+=s[i];
-                int num = stoi(tmp);
-                tmp = ""; //end of first num, start of new one
-                if(sign == '+') stk.push(num);
-                if(sign == '-') stk.push(-num);
-                if(sign == '*'){
-                    num = num * stk.top();
-                    stk.pop(); stk.push(num);
-                } 
-                if(sign == '/'){
-                    num = stk.top()/num;
-                    stk.pop(); stk.push(num);
-                } 
-            }else{//continue capturing more chars of the num
-                tmp+=s[i];
+        /*extract ops into another vector*/
+        for(int i=0; i<s.size();i++){
+            if(s[i] == '+' || s[i] == '-' || s[i] == '*' || s[i] == '/'){
+                ops.push_back(s[i]);
             }
         }
-        
+
+        /*do math operations*/
+        for(int i=0; i<ops.size();i++){
+            if(ops[i] == '+') stk.push(nums[i]);
+            if(ops[i] == '-') stk.push(-nums[i]);
+            if(ops[i] == '*') { int res = nums[i]*stk.top(); stk.pop(); stk.push(res);}
+            if(ops[i] == '/') { int res = stk.top()/nums[i]; stk.pop(); stk.push(res);}
+        }
+
+        /*sum up all stack entries*/
         int sum = 0;
         while(!stk.empty()){
-            sum += stk.top();
+            sum +=stk.top();
             stk.pop();
         }
         
-      return sum;
+        return sum;
     }
 };
