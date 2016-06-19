@@ -3,7 +3,7 @@ public:
     int calculate(string s) {
         
         if(s.size() == 0) return NULL;
-        int mul = 1;
+        int sign = 1;
         int sum = 0;
         string last_num = "";
         stack <int> stk;
@@ -12,9 +12,9 @@ public:
             
             if(s[i] == '('){
                 stk.push(sum);
-                stk.push(mul);
+                stk.push(sign);
                 sum = 0;
-                mul = 1;
+                sign = 1;
                 continue;
             }
             if(s[i] == ')'){
@@ -29,15 +29,15 @@ public:
                 continue;
                 
             if(s[i] == '-'){
-                mul = -1;
+                sign = -1;
                 continue;
             }
             
             last_num += s[i];
             
-            if((i == s.size()-1) || (i < (s.size()-1) && isdigit(s[i+1])==false)){
-                sum = sum + (mul * stoi(last_num));
-                mul = 1;
+            if((i == s.size()-1) || (i < (s.size()-1) && !isdigit(s[i+1]))){
+                sum = sum + (sign * stoi(last_num));
+                sign = 1;
                 last_num = "";
             }
         }
