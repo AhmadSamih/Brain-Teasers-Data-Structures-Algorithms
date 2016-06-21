@@ -9,7 +9,7 @@ public:
     for(int i=1;  i<matrix.size(); i++){
         for(int j=1; j<matrix[i].size(); j++){
             DP[i][j] = matrix[i][j] - '0';
-            DP[i][j] += DP[i][j]*(min(DP[i-1][j], min(DP[i][j-1], DP[i-1][j-1])));
+            DP[i][j] += (-DP[i][j])&(min(DP[i-1][j], min(DP[i][j-1], DP[i-1][j-1])));
             max = max<DP[i][j] ? DP[i][j] : max;
         }
     }
