@@ -8,15 +8,18 @@ public:
                 set<int>_set(nums.begin()+i, nums.end());
                 auto idx = _set.find(nums[i]);
                 int next = *(++idx);
-                for(int k=nums.size()-1; k>=0; k--) 
-                    if(nums[k] == next) {
-                        pos = k; break;
+                int value = INT_MAX;
+                for(int k=nums.size()-1; k>i; k--) 
+                    if(nums[k] > nums[i]) {
+                        if(nums[k]<value){
+                            value = nums[k];
+                            pos = k;
+                        }
                     }
                 int tmp2 = nums[i];
                 nums[i] = next;        
                 nums[pos] = tmp2;
                 sort(nums.begin()+i+1, nums.end());
-                //cout <<i << " " << pos <<endl;
                 break;
             }
         }
