@@ -10,7 +10,7 @@ public:
             }else if(nums[mid]<nums[r]){
                 r = mid;
             }else{
-                r--;
+                r--;//move closer to left and try
             }
         }
      return l;
