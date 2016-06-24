@@ -15,12 +15,12 @@ public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         
         //Using Lambda function
-        //auto cmp = [](ListNode* left, ListNode* right) { return (left->val) > (right->val);}
-        //priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>heap(cmp);
+        auto cmp = [](ListNode* left, ListNode* right) { return (left->val) > (right->val);};
+        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>heap(cmp);
     
         //using functor
-        struct cmp{ bool operator()(ListNode* left, ListNode* right){return (left->val) > (right->val);}};
-        priority_queue<ListNode*, vector<ListNode*>,cmp>heap;
+        //struct cmp{ bool operator()(ListNode* left, ListNode* right){return (left->val) > (right->val);}};
+        //priority_queue<ListNode*, vector<ListNode*>,cmp>heap;
 
         //maintain a k-ary heap
         for(int i=0; i<lists.size();i++){
