@@ -1,15 +1,19 @@
 class Solution {
 public:
     bool isPalindrome(int x) {
-        
-        string s= "";
+        if(x<0) return false;
+        char num[20];
+        int size=0;
         while(x){
             int rem = x%10;
             x = x/10;
-            s+=to_string(rem);
+            num[size++]=rem;
         }
-        string rev = s;
-        reverse(rev.begin(), rev.end());
-        return (rev==s);
+        int start =0; int end = size-1;
+        while(start<=end){
+            if(num[start++] != num[end--])
+                return false;
+        }
+        return true;
     }
 };
