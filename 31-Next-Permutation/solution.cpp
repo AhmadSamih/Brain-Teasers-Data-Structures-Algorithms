@@ -5,9 +5,6 @@ public:
         for(int i = nums.size()-2; i>=0; i--){
             if(nums[i] < nums[i+1]){
                 found = 1;            
-                //set<int>_set(nums.begin()+i, nums.end());
-                //auto idx = _set.find(nums[i]);
-                //int next = *(++idx);
                 int value = INT_MAX;
                 for(int k=nums.size()-1; k>i; k--) 
                     if(nums[k] > nums[i]) {
