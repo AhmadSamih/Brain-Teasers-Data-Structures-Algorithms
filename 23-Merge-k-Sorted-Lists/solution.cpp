@@ -11,8 +11,8 @@ public:
     
     /*algo works like this: store all k first elements from the lists in a min heap, 
     store the min somewhere, replace it with another node from the list.*/
+    
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-
         auto cmp = [](ListNode* left, ListNode* right) { return (left->val) > (right->val);};
         priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>heap(cmp);
         
@@ -22,27 +22,16 @@ public:
                 heap.push(lists[i]);
         }
 
-        ListNode *root = NULL, *curr = NULL;
-        ListNode *tmp = heap.empty() ? NULL : heap.top();
-
-        if(tmp){
-            root = new ListNode(tmp->val);
-            curr = root;
-            heap.pop();
-            if(tmp->next)
-                heap.push(tmp->next);
-        }
-
+        ListNode *root = new ListNode(0);
+        ListNode *tail = root;
         //create the resulting list
         while(!heap.empty()){
-            ListNode *tmp = heap.top();
-            curr->next = new ListNode(tmp->val);
-            curr = curr->next;
-            heap.pop();
+            ListNode *tmp = heap.top(); heap.pop();
+            tail->next = new ListNode(tmp->val);
+            tail = tail->next;
             if(tmp->next)
                 heap.push(tmp->next);
         }
-
-        return root;
+        return root->next;
     }
 };
