@@ -10,16 +10,17 @@
 class Solution {
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        if(nums.empty()) return NULL;
-        return insert(0, nums.size()-1, nums);
+        //do binary search/insertion
+        int left = 0; int right = nums.size();
+        return BS(nums, left, right);
     }
     
-    TreeNode* insert(int l, int r, vector<int>&nums){
-        if(l>r) return NULL;
-        int mid = (l+r+1)/2; TreeNode* root = new TreeNode(nums[mid]);
-        root->left = insert(l, mid-1, nums); 
-        root->right = insert(mid+1, r, nums);
-        return root;
+    TreeNode* BS(vector<int>&nums, int left, int right){
+        if(left >= right) return NULL;
+        int mid = (left+right)/2; 
+        TreeNode *node = new TreeNode(nums[mid]);
+        node->left  = BS(nums, left, mid );//left
+        node->right = BS(nums, mid+1, right );//right
+        return node;        
     }
-    
 };
