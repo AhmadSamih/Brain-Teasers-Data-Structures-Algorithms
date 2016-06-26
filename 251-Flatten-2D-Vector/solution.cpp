@@ -1,27 +1,23 @@
 class Vector2D {
 public:
-    std::vector<vector<int>>::iterator x;
-    std::vector<int>::iterator y;
-    vector<vector<int>>vec2d;
 
+    int x,y;
+    int X,Y;
+    vector<vector<int>> vec2d;
     Vector2D(vector<vector<int>>& _vec2d) {
         vec2d = _vec2d;
-        if(!vec2d.empty()){
-            x = vec2d.begin();
-            y = x->begin();
-        }
+        x=0; y=0;
+        X = vec2d.size();
     }
 
     int next() {
-        return *y++;
+        return vec2d[x][y++];
     }
 
     bool hasNext() {
-        while(x!=vec2d.end() && y==x->end()){
-            x++;
-            y=x->begin();
-        }
-        return (x!=vec2d.end());
+        while(x<X && y>=vec2d[x].size()){x++;y=0;}
+        if(x<X && y<vec2d[x].size()) return true;
+        else return false;
     }
 };
 
