@@ -3,9 +3,8 @@ public:
     int helper(vector<int>& nums, int start, int end){
         int size = end-start+1;
         int DP[size]= {0};
-        DP[0] = nums[start]; 
-        for(int i=1; i<size;i++){
-            DP[i] = max(DP[i-1], i>1 ? nums[start+i]+DP[i-2]:nums[start+i]);
+        for(int i=0; i<size;i++){
+            DP[i] = max(i>0?DP[i-1]:nums[start], i>1?nums[start+i]+DP[i-2]:nums[start+i]);
         }
         return DP[size-1];
     }
