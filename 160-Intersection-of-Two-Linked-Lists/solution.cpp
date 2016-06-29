@@ -9,26 +9,40 @@
 class Solution {
 public:
     ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
-      if (!headA || !headB) return NULL;
-      if (headA == headB) return headA;
-        ListNode *tailA=headA;
-        while (tailA->next) tailA=tailA->next;
-        tailA->next = headB; //create a circle
-        ListNode *slow=headA,*fast=headA;
-        while (fast && fast->next){
-            fast = fast->next->next;
-            slow = slow->next;
-            if (slow==fast){
-                fast = headA;
-                while (fast!=slow){
-                    fast = fast->next;
-                    slow = slow->next;
-                }
-                tailA->next = NULL;
-                return fast;
+        
+        if((headA && !headB) || (!headA && headB)) return NULL;
+        
+        ListNode *A = headA;
+        ListNode *B = headB;
+        
+        int traversedA = 0;
+        int traversedB = 0;      
+        
+        while(1){
+            if(headA == headB)
+                return headA;
+                        
+            headA = headA->next;
+            headB = headB->next;
+            
+            if(headA ==NULL){
+                if(traversedA) return NULL;
+                traversedA = 1;
+                headA = B;
+            }
+            if(headB ==NULL){
+                if(traversedB) return NULL;
+                traversedB = 1;
+                headB = A;
             }
         }
-        tailA->next = NULL;
-        return NULL;
     }
 };
+
+
+/*
+  1 1
+        1 1 1
+1 1 1
+ 
+*/
