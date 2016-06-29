@@ -1,69 +1,61 @@
 class Solution {
 public:
-    //build a trie out of the words needed
-    struct trieNode{
-      trieNode* n[26];
+
+    struct TrieNode{
+      TrieNode* p[26];  
       string word;
-      trieNode(){
-          for(auto &i:n) i = NULL; //note the reference here
+      TrieNode(){
+          for(auto &x : p)x=NULL;
+          word.clear();
       }
     };
+
+    TrieNode * head;
     
-    struct trie{
-        trieNode * head;
-        trie():head(new trieNode()){}
-        void insert(string word){
-            trieNode *p = head;
-            for(auto &i:word){
-                int c = i - 'a';
-                if(!p->n[c]) p->n[c] = new trieNode();
-                p = p->n[c];
-            }
-            p->word = word;
+    void add_word(string w){
+        TrieNode *tmp = head;
+        for(int i= 0; i<w.size(); i++){
+            int pos = w[i]- 'a';
+            if(tmp->p[pos] == NULL) tmp->p[pos] = new TrieNode();
+            tmp = tmp->p[pos];
         }
-    };
-
-    vector<string>res;
-    vector<vector<int>>visited;
-    void dfs(int i, int j, trieNode *p, int xdim, int ydim, vector<vector<char>>& board){
-        if(visited[i][j]) return;
-        
-        if(!p->word.empty()){
-            res.push_back(p->word);
-            p->word.clear();
-            //shouldn't return because this might be a partial word matching.
-        }
-
-        //traverse all directions
-        visited[i][j] = 1;
-        int dirs[][2] = {{-1,0}, {1,0}, {0,-1}, {0,1}};
-        for(auto &dir:dirs){
-            int x = i+dir[0]; int y = j+dir[1];
-            if(x>=0 && x<xdim && y>=0 && y<ydim && p->n[board[x][y]-'a']){
-                dfs(x, y, p->n[board[x][y]-'a'], xdim, ydim, board);
-            }
-        }
-        visited[i][j] = 0;
+        tmp->word = w;
     }
 
-    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
-
-        if(!board.size() || !board[0].size() || !words.size()) return res;
-        
-        trie T;
-
-        //fill up the trie
-        for(auto &w:words) T.insert(w);
-
-        visited.resize(board.size(), vector<int>(board[0].size(),0));
-        for(int i=0 ;i<board.size();i++){
-            for(int j=0; j<board[i].size();j++){
-                if(T.head->n[board[i][j] -'a'])
-                    dfs(i, j, T.head->n[board[i][j]-'a'], board.size(), board[i].size(), board);
-            }
+    void dfs(TrieNode *n, int x, int y, int xdim, int ydim, vector<vector<char>>&board, vector<string>& res){
+        if(!n->word.empty()){
+            res.push_back(n->word);
+            n->word.clear(); //invalidate so we don't match on it again to prevent duplicates
         }
         
-        //sort(res.begin(), res.end());
+        char c = board[x][y];
+        board[x][y] = '*'; //mark as visited
+        
+        int nbrs[][2] = {{-1,0},{1,0},{0,-1},{0,1}};
+        for(int i=0 ;i<4; i++){
+            int d0 = x + nbrs[i][0];
+            int d1 = y + nbrs[i][1];
+            if(d0>=0 && d0<xdim && d1>=0 && d1<ydim && board[d0][d1]!='*' && n->p[board[d0][d1]-'a']){
+                dfs(n->p[board[d0][d1]-'a'], d0 , d1, board.size(), board[0].size(), board,res);
+            }
+        }
+        board[x][y] = c; //backtrack
+    }
+    
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        vector<string> res;
+        if(!board.size() || !board[0].size() || !words.size())return res;
+        head = new TrieNode();
+        for(auto &x:words) add_word(x);
+
+        for(int i=0 ;i<board.size(); i++){
+            for(int j=0; j<board[0].size();j++){
+                int c = board[i][j]-'a';
+                if(head->p[c])
+                    dfs(head->p[c], i , j, board.size(), board[0].size(), board,res);
+            }
+        }
         return res;
+        
     }
 };
