@@ -32,11 +32,11 @@ public:
         
         used.resize(s.size(),false);
         sort(new_str.begin(), new_str.end());
-        DF(new_str, new_str.size(),0, o, odds);
+        DF(new_str, new_str.size(), o, odds);
         return vec;
     }
     
-    void DF(string s, int size, int idx, char o, int odd){
+    void DF(string s, int size, char o, int odd){
         if(path.size() == size){
             string tmp = path;
             reverse(tmp.begin(), tmp.end());
@@ -46,11 +46,11 @@ public:
         }else if(path.size()>size)
             return;
             
-        for(int i=idx; i<size; i++){
+        for(int i=0; i<size; i++){
             if(used[i] || (i>0 && s[i]==s[i-1] && !used[i-1]) ) continue;
             path += s[i];
             used[i] = true;
-            DF(s,size, idx,o, odd);
+            DF(s,size, o, odd);
             path.pop_back();
             used[i] = false;
         }
