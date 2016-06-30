@@ -16,7 +16,7 @@ public:
 
     bool hasNext() {
         while(x<X && y>=(*vec2d)[x].size()){x++;y=0;}
-        return (x<X &&  y < (*vec2d)[x].size());
+        return (x<X &&  y<(*vec2d)[x].size());
     }
 };
 
