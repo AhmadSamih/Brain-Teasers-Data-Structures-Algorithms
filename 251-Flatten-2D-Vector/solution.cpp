@@ -2,21 +2,21 @@ class Vector2D {
 public:
 
     int x,y;
-    int X,Y;
-    vector<vector<int>> vec2d;
+    int X;
+    vector<vector<int>>* vec2d;
     Vector2D(vector<vector<int>>& _vec2d) {
-        vec2d = _vec2d;
+        vec2d =&_vec2d;
         x=0; y=0;
-        X = vec2d.size();
+        X = vec2d->size();
     }
 
     int next() {
-        return vec2d[x][y++];
+        return (*vec2d)[x][y++];
     }
 
     bool hasNext() {
-        while(x<X && y>=vec2d[x].size()){x++;y=0;}
-        if(x<X && y<vec2d[x].size()) return true;
+        while(x<X && y>=(*vec2d)[x].size()){x++;y=0;}
+        if(x<X && y<(*vec2d)[x].size()) return true;
         else return false;
     }
 };
