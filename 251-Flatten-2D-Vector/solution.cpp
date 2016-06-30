@@ -1,27 +1,23 @@
 class Vector2D {
 public:
 
-    int x,y;
-    int X;
-    vector<vector<int>>* vec2d;
+    std::vector<int>::iterator yitr;
+    std::vector<vector<int>>::iterator xitr;
+    std::vector<vector<int>>::iterator eitr;
+    
     Vector2D(vector<vector<int>>& _vec2d) {
-        vec2d =&_vec2d;
-        x=0; y=0;
-        X = vec2d->size();
+        xitr = _vec2d.begin();
+        if(xitr!=_vec2d.end())
+            yitr = xitr->begin();
+        eitr = _vec2d.end();
     }
 
     int next() {
-        return (*vec2d)[x][y++];
+        return *yitr++;
     }
 
     bool hasNext() {
-        while(x<X && y>=(*vec2d)[x].size()){x++;y=0;}
-        return (x<X &&  y<(*vec2d)[x].size());
+        while(xitr!=eitr && yitr==xitr->end()) xitr++, yitr=xitr->begin();
+        return !(xitr==eitr);
     }
 };
-
-/**
- * Your Vector2D object will be instantiated and called as such:
- * Vector2D i(vec2d);
- * while (i.hasNext()) cout << i.next();
- */
