@@ -26,26 +26,23 @@ public:
     }
 
     int next() {
-        hasNext();
-        int val =  begin.top()->getInteger();
-        begin.top()++;
-        return val;
+        return  (begin.top()++)->getInteger();
     }
 
     bool hasNext() {
-        while(begin.size()){
-            if(begin.top() == end.top()){
-                begin.pop();
-                end.pop();
-            }else{
-                auto x = begin.top();
-                if(begin.top()->isInteger()) return true;
-                begin.top()++;
-                begin.push(x->getList().begin());
-                end.push(x->getList().end());
-            }
+        if(begin.empty()) return false;
+        
+        if(begin.top() == end.top()){
+            begin.pop();
+            end.pop();
+        }else{
+            auto x = begin.top();
+            if(begin.top()->isInteger()) return true;            
+            begin.top()++;
+            begin.push(x->getList().begin());
+            end.push(x->getList().end());
         }
-        return false;
+        return hasNext();
     }
 };
 
