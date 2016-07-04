@@ -13,14 +13,14 @@ public:
                 int start = i+1;
                 int end = nums.size()-1;
                 while(start<end){
-                    while(start>i+1 && nums[start]==nums[start-1]) start++;
-                    while(end<nums.size()-1 && nums[end]==nums[end+1]) end--;
                     if(start>=end) break;
                     if(nums[start]+nums[end] == target) {res.push_back({nums[k], nums[i], nums[start], nums[end]});}
                     if(nums[start]+nums[end]< target){
                         start++;
+                        while(start>i+1 && nums[start]==nums[start-1]) start++;
                     }else{
                         end--;
+                        while(end<nums.size()-1 && nums[end]==nums[end+1]) end--;
                     }
                 }
             }
