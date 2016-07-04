@@ -24,7 +24,12 @@ public:
                     if(nums[start]+nums[end]< target) start++;
                     else if(nums[start]+nums[end] > target) end--;
                     else{
-                        res.push_back({nums[k], nums[i], nums[start], nums[end]}); 
+                        vector<int> quadruplet(4, 0);
+                        quadruplet[0] = nums[k];
+                        quadruplet[1] = nums[i];
+                        quadruplet[2] = nums[start];
+                        quadruplet[3] = nums[end];
+                        res.push_back(quadruplet); 
                         start++; end--;
                     }
                     while(start>i+1 && nums[start]==nums[start-1]) start++;
