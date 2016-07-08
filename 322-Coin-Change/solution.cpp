@@ -11,8 +11,7 @@ public:
         DP[0] = 0;
         for(int i=1; i<=amount; i++){
             for(int j=0; j<coins.size();j++){
-                if(i<coins[j]) continue;
-                if(DP[i-coins[j]] == INT_MAX) continue;
+                if(i<coins[j] || DP[i-coins[j]] == INT_MAX) continue;
                 DP[i] = min(DP[i - coins[j]] + DP[coins[j]], DP[i]);
             }
         }
