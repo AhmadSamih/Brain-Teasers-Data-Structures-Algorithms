@@ -5,7 +5,6 @@ public:
         vector<int>DP(amount+1,INT_MAX);
         for(int i=0; i<coins.size(); i++){
             if(amount<coins[i]) continue;
-            if(i>amount) break;
             DP[coins[i]] = 1;
         }
         
