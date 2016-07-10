@@ -5,8 +5,8 @@ public:
         vector<int>column(height.size(), 0);
         
         for(int i=1 ;i<height.size(); i++){
-            if(height[i] < height[i-1]) continue;
-            
+            while(i<height.size()-1 && height[i]<height[i-1])i++;
+
             int left_wall_idx = 0;
             int left_wall = 0;
             int right_wall = height[i];
