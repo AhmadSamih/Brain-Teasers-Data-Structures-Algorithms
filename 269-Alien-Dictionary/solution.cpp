@@ -9,14 +9,15 @@ public:
 
     bool topologicalSortUtil(char n)
     {
-        if(cyc.count(n)) return true;
-        if(visited[n]) return false;
+        if(cyc.count(n)) return true; //this has to be checked first, to detect cycles
+        if(visited[n]) return false; //then if no cycle detected, but node is visited, we return
+        
         visited[n] = true; 
         
         cyc.insert(n);
         for(auto itr=G[n].begin(); itr!=G[n].end(); itr++){
-             bool cycle = topologicalSortUtil(*itr);
-             if(cycle)return true;
+             if(topologicalSortUtil(*itr))//can't call it based on visisted, because we need to detect cycle first
+                 return true;
         }
         cyc.erase(n);
         
@@ -24,16 +25,6 @@ public:
         return false;
     }
 
-    string topologicalSort()
-    {
-        for(auto itr=G.begin(); itr!=G.end(); itr++){
-            bool cycle = topologicalSortUtil(itr->first);
-            if(cycle) return "";
-        }
-        reverse(res.begin(), res.end());
-        return res;
-    }
-    
     string alienOrder(vector<string>& words) {
         if(words.size()==1) return words.front();
         for(int i = 0; i<words.size()-1; i++){
@@ -47,6 +38,12 @@ public:
                 }
             }
         }
-        return topologicalSort();
+        
+        for(auto itr=G.begin(); itr!=G.end(); itr++){
+            if(topologicalSortUtil(itr->first))
+                return "";
+        }
+        reverse(res.begin(), res.end());
+        return res;
     }
 };
