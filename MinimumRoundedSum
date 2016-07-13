@@ -1,0 +1,40 @@
+bool cmp(pair<int, float>a, pair<int, float>b){  
+  return (a.second - floor(a.second)) > (b.second - floor(b.second));
+}
+
+vector<int> roundNumbers(vector<float>input){
+
+    int rounded_sum = 0;  float sum = 0;
+    vector<int>res(input.size());
+    vector<pair<int,float>>tmp; // to sort items based on each one's fraction
+  
+    for(uint32_t i=0; i<input.size();i++){      
+      res[i] = floor(input[i]); 
+      tmp.emplace_back(i, input[i]);
+    }
+  
+  sum = accumulate(input.begin(), input.end(), 0.0);
+  rounded_sum= accumulate(res.begin(), res.end(), 0);
+  
+  sort(tmp.begin(), tmp.end(), cmp);
+  
+  int tmp_idx = 0;
+  int remain = round(sum) - rounded_sum;
+  while(remain-->0){
+    res[tmp[tmp_idx++].first]++;
+  }  
+
+  return res;
+}
+
+int main() {
+
+  vector<float>input = {5.9,2.2,3.3,2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 10.5, 10.1, 10.9};
+  vector<int>output = roundNumbers(input);
+
+  int final = 0;
+  for(auto &x:output)  final +=x;
+  cout<<final;
+
+  return 0;
+}
