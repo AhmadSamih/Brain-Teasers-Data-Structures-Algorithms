@@ -9,7 +9,7 @@ public:
 
     bool topologicalSortUtil(char n)
     {
-        if(cyc.count(n)) return true; //this has to be checked first, to detect cycles
+        if(cyc.find(n) != cyc.end()) return true; //this has to be checked first, to detect cycles
         if(visited[n]) return false; //then if no cycle detected, but node is visited, we return
         
         visited[n] = true; 
@@ -30,8 +30,8 @@ public:
         for(int i = 0; i<words.size()-1; i++){
             string w1 = words[i]; string w2 = words[i+1]; int found = 0;
             for(int j=0; j<max(w1.size(), w2.size()); j++){
-                if(j<w1.size() && G.count(w1[j])==0)G[w1[j]] = unordered_set<char>();
-                if(j<w2.size() && G.count(w2[j])==0)G[w2[j]] = unordered_set<char>();
+                if(j<w1.size() && G.find(w1[j])==G.end())G[w1[j]] = unordered_set<char>();
+                if(j<w2.size() && G.find(w2[j])==G.end())G[w2[j]] = unordered_set<char>();
                 if(j<w1.size() && j<w2.size() && w1[j] != w2[j] && !found){
                     G[w1[j]].insert(w2[j]);
                     found =1;
