@@ -1,23 +1,22 @@
 class Solution {
 public:
-    vector<vector<int>> res;
-
-    vector<vector<int>> combine(int n, int k){
-        vector<int> tmp(k,0); 
-        recurr(n, k, 0, 0,tmp);
-        return res;
-    }
-    
-    void recurr(int n, int k, int idx, int size, vector<int>&tmp){
-        if(size == k){
+    vector<vector<int>>res;
+    unordered_map<int, int>used;
+    void recur(vector<int>tmp, int n, int k, int idx){
+        if(tmp.size() == k){
             res.push_back(tmp);
             return;
         }
-        for(int i=idx;i<n;i++){
-            tmp[size++]=i+1;
-            recurr(n, k, i+1, size,tmp);
-            size--;
+
+        for(int i=idx ; i<=n; i++){
+            tmp.push_back(i);
+            recur(tmp, n, k, i+1);
+            tmp.pop_back();
         }
+        
     }
-    
+    vector<vector<int>> combine(int n, int k) {
+        recur(vector<int>(), n, k,1);
+        return res;
+    }
 };
