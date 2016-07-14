@@ -17,7 +17,7 @@ public:
                     left_wall = height[j];
                 }
             }
-            int prac = min (height[left_wall_idx], right_wall);
+            int prac = min (left_wall, right_wall);
             for(int j=i-1; j>left_wall_idx; j--){ //walk between the two walls
                 column[j] = prac - height[j];
             }
