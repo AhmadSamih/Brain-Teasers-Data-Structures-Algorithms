@@ -1,0 +1,37 @@
+#include <iostream>
+using namespace std;
+
+void recur(string w1, int w1i, string w2, int w2i, string tmp){
+ 
+  if(w1i== w1.size() && w2i==w2.size()){
+    cout<< tmp << endl;
+    return;
+  }
+  
+  if(w1i<w1.size()){
+    recur(w1, w1i+1, w2, w2i, tmp+w1[w1i]);
+  }
+
+  if(w2i<w2.size()){
+    recur(w1, w1i, w2, w2i+1, tmp+w2[w2i]);
+  }
+}
+
+int main() {
+
+  string w1 = "AB";
+  string w2 = "CD";
+  
+  recur(w1,0, w2,0, "");
+  
+  return 0;
+}
+
+/*****OUTPUT***********
+ABCD
+ACBD
+ACDB
+CABD
+CADB
+CDAB
+**********************/
