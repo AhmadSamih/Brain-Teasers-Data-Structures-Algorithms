@@ -42,3 +42,10 @@ int main() {
   
   return 0;
 }
+/****OUTPUT******
+1999 
+Chevy 
+Venture "Extended Edition, Very Large" 
+ 
+5000.00 
+*****************/
