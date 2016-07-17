@@ -28,7 +28,11 @@ public:
                 if(tmp1!=tmp2 && tmp3!=tmp4 && tmp5!=tmp6) return false;
             }
         }
+        
+        //handle the case where one string is bigger than the other and they are matching until now with 0 edits
         if(abs(m-n)>0) return true;
-        else return (edits==1);
+        else 
+        //handle the case they have matched with one edit
+        return (edits==1);
     }
 };
