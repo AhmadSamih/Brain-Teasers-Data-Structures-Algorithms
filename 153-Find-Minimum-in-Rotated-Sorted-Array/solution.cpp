@@ -13,7 +13,7 @@ public:
             if(nums[right]<nums[mid]){
                 left = mid+1;
             }else{
-                right = mid;
+                right = mid; //be carefull it doesn't underflow
             }
         }
         return _min;
