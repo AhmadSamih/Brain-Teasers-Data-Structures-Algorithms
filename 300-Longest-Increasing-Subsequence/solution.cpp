@@ -1,19 +1,20 @@
 class Solution {
 public:
+
     int lengthOfLIS(vector<int>& nums) {
-        
-        if(nums.empty())return 0;           
-        int Max = 1;
-        vector<int>DP(nums.size(),1);
-        for(int i=1; i<nums.size(); i++){
-            for(int j=0; j<i; j++){
-                if(nums[i]>nums[j])
-                    DP[i] = max(DP[i], DP[j]+1);
-                    if(DP[i]>Max) Max = DP[i];
-            }
-        }
-        return Max;
+    if (nums.size() == 0)
+        return nums.size();
+
+    vector<int>::iterator m = nums.begin();  // m will mark the virtual "S.end()".
+    for (int& val : nums) {
+        auto it = lower_bound(nums.begin(), m, val);
+        *it = val;
+        if (it == m)
+            m++;
     }
+
+    return m - nums.begin();
+}
 };
 
 //This is quite different from the 2D max increasing sequence. Beucase that one is consequtive. 
