@@ -6,7 +6,6 @@ public:
         DP[0] = 0;
         for(int j=0; j<coins.size();j++){
             for(int i=coins[j]; i<=amount; i++){
-                //if(DP[i-coins[j]] == INT_MAX) continue;
                 DP[i] = min(DP[i - coins[j]] + 1, DP[i]);
             }
         }
