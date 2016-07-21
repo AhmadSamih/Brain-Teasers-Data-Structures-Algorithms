@@ -7,14 +7,14 @@ public:
         for(int i=1 ;i<height.size(); i++){
             while(i<height.size()-1 && height[i]<height[i-1])i++;
 
-            int left_wall_idx = 0;
             int left_wall = 0;
             int right_wall = height[i];
+            int left_wall_idx = 0;
             for(int j=i-1; j>=0; j--){
                 if(left_wall>right_wall) break;
                 if(height[j]>left_wall){
-                    left_wall_idx = j;
                     left_wall = height[j];
+                    left_wall_idx = j;
                 }
             }
             int prac = min (left_wall, right_wall);
