@@ -17,8 +17,8 @@ public:
         if(s[i] == '+'  || s[i] == '-')
             i++;
             
-        for(;i < s.size(); i++){
-            if(s[i]<= '9' && s[i] >= '0'){
+        for(;i<s.size(); i++){
+            if(isdigit(s[i])){
                 continue;
             }else if(!e && i>=1 && i<s.size()-1 && s[i]=='e'){
                 e = true;
