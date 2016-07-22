@@ -13,9 +13,8 @@ public:
        for(int i=0;i<s.size(); i++){
             if(!e && i>=1 && i<s.size()-1 && s[i]=='e'){
                 e = true;
-                if(i == 1) 
-                    if(!isdigit(s[i-1]))
-                        return false;
+                if(i == 1 && !isdigit(s[i-1])) //only guard against .e/+e being ./+ at idx 0, all others are ok like 25.e etc...
+                    return false;
                 if(s[i+1]=='+' || s[i+1]=='-'){
                     i++;
                     if(i+1>= s.size()) 
