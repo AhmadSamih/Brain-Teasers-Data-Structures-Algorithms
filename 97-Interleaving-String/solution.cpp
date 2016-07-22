@@ -29,12 +29,6 @@ int dyn(string s1, string s2, string s3){
             
         }
     }
-    
-    for(int i=0; i<=s1.size(); i++){
-        for(int j=0; j<=s2.size(); j++)
-            cout<<DP[i][j]<<" ";
-        cout<<endl;
-    }
 
     return DP[s1.size()][s2.size()];
 }
