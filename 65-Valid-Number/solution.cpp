@@ -32,9 +32,7 @@ public:
                 }
             }else if(!dot && !e && s[i] == '.'){
                 dot = true;
-                if( (i>=1 && isdigit(s[i-1])) || (i<s.size()-1 && isdigit(s[i+1]))){
-                    continue;
-                }else{
+                if(!((i>=1 && isdigit(s[i-1])) || (i<s.size()-1 && isdigit(s[i+1])))){ //to take care of 3. case
                     return false;
                 }
             }else{
