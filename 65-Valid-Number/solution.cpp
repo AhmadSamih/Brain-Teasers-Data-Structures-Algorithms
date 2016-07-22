@@ -11,9 +11,7 @@ public:
 
        bool e = false; bool dot = false;
        for(int i=0;i<s.size(); i++){
-            if(i==0 && (s[i]=='+' || s[i]=='-')){
-
-            }else if(!e && i>=1 && i<s.size()-1 && s[i]=='e'){
+            if(!e && i>=1 && i<s.size()-1 && s[i]=='e'){
                 e = true;
                 if(i == 1) 
                     if(!isdigit(s[i-1]))
@@ -28,7 +26,7 @@ public:
                 if(!((i>=1 && isdigit(s[i-1])) || (i<s.size()-1 && isdigit(s[i+1])))){ //to take care of 3. case
                     return false;
                 }
-            }else if(!isdigit(s[i]))
+            }else if(!isdigit(s[i]) && !(i==0 && (s[i]=='+' || s[i]=='-')))
                 return false;
         }
         return true;
