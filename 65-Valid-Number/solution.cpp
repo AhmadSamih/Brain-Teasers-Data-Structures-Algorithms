@@ -23,15 +23,16 @@ public:
             }else if(!e && i>=1 && i<s.size()-1 && s[i]=='e'){
                 e = true;
                 if(i == 1) 
-                    if(!(s[i-1]<= '9' && s[i-1] >= '0')) 
+                    if(!isdigit(s[i-1]))
                         return false;
                 if(s[i+1]=='+' || s[i+1]=='-'){
                     i++;
-                    if(i+1 >= s.size()) return false;
+                    if(i+1 >= s.size()) 
+                        return false;
                 }
             }else if(!dot && !e && s[i] == '.'){
                 dot = true;
-                if( (i>=1 && (s[i-1]<= '9' && s[i-1] >= '0')) || (i<s.size()-1 && (s[i+1]<= '9' && s[i+1] >= '0'))){
+                if( (i>=1 && isdigit(s[i-1])) || (i<s.size()-1 && isdigit(s[i+1]))){
                     continue;
                 }else{
                     return false;
