@@ -4,14 +4,8 @@ public:
     bool isNumber(string s) {
         bool isnum = false;
         if(s.empty())return isnum;
-        
-        if(s.size()==1){
-            if(((s[0] - '0') <= 9  &&  (s[0] - '0') >= 0))
-                return true;
-            else
-                return false;
-        }
-        
+        if(s.size() == 1) return  isdigit(s[0]);
+
        int first = s.find_first_not_of(' ');
        int last = s.find_last_not_of(' ');
        s = s.substr(first, (last-first+1));
