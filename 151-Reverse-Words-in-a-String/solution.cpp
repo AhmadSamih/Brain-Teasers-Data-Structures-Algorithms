@@ -1,11 +1,7 @@
 class Solution {
 public:
     void reverseWords(string &s) {
-      if(s.empty()){
-          s.clear();
-          return;
-      } 
-      
+
       stack<string> stk;
       std::size_t begin = 0;
       std::size_t end = 0;
