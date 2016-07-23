@@ -26,23 +26,35 @@ public:
     }
 
     int next() {
-        return  (begin.top()++)->getInteger();
+        try{
+            if(hasNext()){
+                return  (begin.top()++)->getInteger();
+            }else{
+                throw ("no element found");
+            }
+        }
+        catch (string error){
+            cout<< error<<endl;
+            exit(0);
+        }
     }
 
     bool hasNext() {
-        if(begin.empty()) return false;
-        
-        if(begin.top() == end.top()){
-            begin.pop();
-            end.pop();
-        }else{
-            auto x = begin.top();
-            if(begin.top()->isInteger()) return true;            
-            begin.top()++;
-            begin.push(x->getList().begin());
-            end.push(x->getList().end());
-        }
-        return hasNext();
+        while(begin.size()){
+            //if(begin.empty()) return false;
+            if(begin.top() == end.top()){
+                begin.pop();
+                end.pop();
+            }else{
+                auto x = begin.top();
+                if(begin.top()->isInteger()) return true;            
+                begin.top()++;
+                begin.push(x->getList().begin());
+                end.push(x->getList().end());
+            }
+            //return hasNext();
+            }
+        return false;
     }
 };
 
