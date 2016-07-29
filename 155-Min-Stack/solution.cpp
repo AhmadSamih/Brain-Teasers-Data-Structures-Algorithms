@@ -1,8 +1,8 @@
 class MinStack {
 public:
     /** initialize your data structure here. */
-    deque<int>dq;
-    deque<int> Min;
+    stack<int>dq;
+    stack<int> Min;
     
     MinStack() {
         
@@ -10,24 +10,24 @@ public:
     
     void push(int x) {
         if(Min.empty()) 
-            Min.push_front(x);
+            Min.push(x);
         else
-            Min.push_front(min(Min.front(), x));
+            Min.push(min(Min.top(), x));
             
-        dq.push_front(x);
+        dq.push(x);
     }
     
     void pop() {
-        dq.pop_front();
-        Min.pop_front();
+        dq.pop();
+        Min.pop();
     }
     
     int top() {
-        return dq.front();
+        return dq.top();
     }
     
     int getMin() {
-        return Min.front();
+        return Min.top();
     }
 };
 
