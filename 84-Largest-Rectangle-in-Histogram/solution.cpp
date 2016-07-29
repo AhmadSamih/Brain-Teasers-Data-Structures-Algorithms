@@ -2,10 +2,6 @@ class Solution {
 public:
     int largestRectangleArea(vector<int>& hist) {
     int n = hist.size();
-    vector<int>result(hist.size(),0);
-    // Create an empty stack. The stack holds indexes of hist[] array
-    // The bars stored in stack are always in increasing order of their
-    // heights.
     stack<int> s;
  
     int max_area = 0; // Initalize max area
@@ -27,11 +23,7 @@ public:
         {
             tp = s.top();  // store the top index
             s.pop();  // pop the top
- 
-            // Calculate the area with hist[tp] stack as smallest bar
             area_with_top = hist[tp] * (s.empty() ? i : i - s.top() - 1);
-            result[tp] = area_with_top;
-            // update max area, if needed
             if (max_area < area_with_top)
                 max_area = area_with_top;
         }
@@ -44,7 +36,6 @@ public:
         tp = s.top();
         s.pop();
         area_with_top = hist[tp] * (s.empty() ? i : i - s.top() - 1);
-        result[tp] = area_with_top;
         if (max_area < area_with_top)
             max_area = area_with_top;
     }
