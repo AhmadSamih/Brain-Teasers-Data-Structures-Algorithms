@@ -6,11 +6,12 @@ public:
         char * token = strtok(dup, "/");
         stack<string>stk;
         while(token){
-            if(string(token) == ".."){
+            string tmp = string(token);
+            if(tmp == ".."){
                 if(!stk.empty())
                     stk.pop();
-            }else if(string(token) != "" && string(token) != ".")
-                stk.push(string(token));
+            }else if(tmp != "" && tmp != ".")
+                stk.push(tmp);
             token = strtok(NULL, "/");
         }
 
