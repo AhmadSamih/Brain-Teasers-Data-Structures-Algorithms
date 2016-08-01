@@ -13,11 +13,11 @@ public:
         int start = 0;
         int end = nums.size()-1;
         while(start<end){
-            if(remap[start][0] + remap[end][0] < target)
-                start++;
-            else if(remap[start][0] + remap[end][0] > target)
-                end--;
-            else if(remap[start][0] + remap[end][0] == target)
+            while(remap[start][0] + remap[end][0] < target) start++;
+            
+            while(remap[start][0] + remap[end][0] > target) end--;
+            
+            if(remap[start][0] + remap[end][0] == target)
                 return {remap[start][1], remap[end][1]};
 
         }
