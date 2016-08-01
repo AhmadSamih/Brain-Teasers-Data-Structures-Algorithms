@@ -1,13 +1,13 @@
 class Solution {
 public:
 
-    static bool cmp(vector<int>& a, vector<int>& b){
-        return a[0] < b[0];
+    static bool cmp(pair<int,int>a, pair<int,int>b){
+        return a.first<b.first;
     }
         
     vector<int> twoSum(vector<int>& nums, int target) {
         
-        vector<vector<int>>remap(nums.size(), vector<int>(2));
+        vector<pair<int,int>> remap(nums.size());
         for(int i=0; i<nums.size(); i++)
             remap[i] = {nums[i],i};
         sort(remap.begin(), remap.end(), cmp);
@@ -15,10 +15,11 @@ public:
         int start = 0;
         int end = nums.size()-1;
         while(start<end){
-            if(remap[start][0] + remap[end][0] == target)
-                return {remap[start][1], remap[end][1]};
             
-            if(remap[start][0] + remap[end][0] < target)
+            if(remap[start].first + remap[end].first == target)
+                return {remap[start].second, remap[end].second};
+            
+            if(remap[start].first + remap[end].first < target)
                 start++;
             else
                 end--;
