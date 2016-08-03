@@ -1,49 +1,55 @@
 class Solution {
 public:
 
-    string res;
-    //define a graph
-    unordered_map<char,unordered_set<char>> G;
-    unordered_set<int>cyc;
+    stack<char>stk;
     unordered_map<char, bool>visited;
-
-    bool topologicalSortUtil(char n)
-    {
-        if(cyc.find(n) != cyc.end()) return true; //this has to be checked first, to detect cycles
-        if(visited[n]) return false; //then if no cycle detected, but node is visited, we return
-        
-        visited[n] = true; 
-        
-        cyc.insert(n);
-        for(auto itr=G[n].begin(); itr!=G[n].end(); itr++){
-             if(topologicalSortUtil(*itr))//can't call it based on visisted, because we need to detect cycle first
-                 return true;
+    unordered_map<char,unordered_set<char>>dict;
+    unordered_set<char>cycle;
+    bool dfs(char c){
+        if(cycle.count(c)) return false;
+        if(visited[c]) return true;
+        visited[c] = 1;
+        cycle.insert(c);
+        for(auto itr=dict[c].begin(); itr!=dict[c].end(); itr++){
+            if(!dfs(*itr)){
+                return false;
+            }
         }
-        cyc.erase(n);
-        
-        res+=n;
-        return false;
+        cycle.erase(c);
+        stk.push(c);
+        return true;
     }
 
     string alienOrder(vector<string>& words) {
-        if(words.size()==1) return words.front();
-        for(int i = 0; i<words.size()-1; i++){
-            string w1 = words[i]; string w2 = words[i+1]; int found = 0;
+
+        if(words.empty()) return "";
+        if(words.size() == 1) return words[0];
+        for(int i=1; i<words.size();i++){
+            string w1 = words[i-1];
+            string w2 = words[i];
+            bool found = 0;
             for(int j=0; j<max(w1.size(), w2.size()); j++){
-                if(j<w1.size() && G.find(w1[j])==G.end())G[w1[j]] = unordered_set<char>();
-                if(j<w2.size() && G.find(w2[j])==G.end())G[w2[j]] = unordered_set<char>();
-                if(j<w1.size() && j<w2.size() && w1[j] != w2[j] && !found){
-                    G[w1[j]].insert(w2[j]);
-                    found =1;
+                if(j<w1.size() && !dict.count(w1[j])) dict[w1[j]] = unordered_set<char>();
+                if(j<w2.size() && !dict.count(w2[j])) dict[w2[j]] = unordered_set<char>();
+                if(j<w1.size() && j<w2.size() && !found && w1[j]!=w2[j]){
+                    found = true;
+                    dict[w1[j]].insert(w2[j]);
                 }
             }
         }
         
-        for(auto itr=G.begin(); itr!=G.end(); itr++){
-            if(topologicalSortUtil(itr->first))
-                return "";
+        for(auto itr=dict.begin(); itr!=dict.end(); itr++){
+            char c = itr->first;
+                if(!dfs(c))
+                    return "";
         }
-        reverse(res.begin(), res.end());
+        
+        string res = "";
+        while(!stk.empty()){
+            res+=stk.top();
+            stk.pop();
+        }
+        
         return res;
     }
 };
