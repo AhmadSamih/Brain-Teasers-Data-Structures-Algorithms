@@ -20,8 +20,8 @@ public:
         DP[0][0] = true;
 
         for(int i=1; i<=p.size();i++){
-            if(i>1 && p[i-1]=='*')
-                DP[0][i] = DP[0][i-2];
+            //if(i>1 && p[i-1]=='*')
+              //  DP[0][i] = DP[0][i-2];
         }
         
         for(int i=1; i<=s.size();i++){
