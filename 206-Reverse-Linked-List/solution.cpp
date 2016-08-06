@@ -8,22 +8,11 @@
  */
 class Solution {
 public:
-    ListNode * new_head;
-    void _reverseList(ListNode* head) {
-     if(head->next==NULL){
-         new_head = head;
-        return;  
-     }
-     reverseList(head->next);   
+    ListNode * reverseList(ListNode* head) {
+     if(!head || !(head->next)) return head;  
+     ListNode * node = reverseList(head->next);   
      head->next->next = head;
-    }
-
-    
-    ListNode* reverseList(ListNode* head) {
-      if(head == NULL) return NULL;
-      
-     _reverseList(head);   
      head->next = NULL;
-     return new_head;
+     return node;
     }
 };
