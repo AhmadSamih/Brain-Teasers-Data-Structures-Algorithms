@@ -5,9 +5,7 @@ public:
         for(int i=0; i<nums.size(); i++){
             if(nums[i] !=0)
                 nums[j++] = nums[i];
+                if(i!=(j-1)) nums[i] = 0;
         }
-        
-        for(; j<nums.size(); j++)
-            nums[j] = 0;
     }
 };
