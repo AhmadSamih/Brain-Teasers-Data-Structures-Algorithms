@@ -1,23 +1,23 @@
 class Stack {
 public:
-    deque<int>dq1;
-    deque<int>dq2;
+    queue<int>dq1;
+    queue<int>dq2;
     // Push element x onto stack.
     void push(int x) {
         while(!dq2.empty()){
-            dq1.push_back(dq2.front());
-            dq2.pop_front();
+            dq1.push(dq2.front());
+            dq2.pop();
         }
-        dq2.push_back(x);
+        dq2.push(x);
         while(!dq1.empty()){
-            dq2.push_back(dq1.front());
-            dq1.pop_front();
+            dq2.push(dq1.front());
+            dq1.pop();
         }
     }
 
     // Removes the element on top of the stack.
     void pop() {
-        dq2.pop_front();
+        dq2.pop();
     }
 
     // Get the top element.
