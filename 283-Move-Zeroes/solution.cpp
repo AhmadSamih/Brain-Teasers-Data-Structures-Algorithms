@@ -7,7 +7,7 @@ public:
             if(nums[i] !=0){
                 tmp = j;
                 nums[j++] = nums[i];
-                i == tmp ? nums[i] = nums[i] : nums[i] = 0;
+                nums[i] = (i == tmp) ? nums[i] : 0;
             }
         }
     }
