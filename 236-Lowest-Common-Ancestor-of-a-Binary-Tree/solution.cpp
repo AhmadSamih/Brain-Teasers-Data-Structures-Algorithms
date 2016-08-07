@@ -11,32 +11,22 @@ class Solution {
 public:
     TreeNode* p;
     TreeNode* q;
-    TreeNode* anc;
-    
+
     TreeNode* find(TreeNode * root){
-     if(!root) return NULL;
+     if(!root || root==p || root==q) return root;
 
      TreeNode* left = find(root->left);
      TreeNode* right = find(root->right);
      
-     if( (left && right) || ((root==p || root==q) && (left||right)))
-     {
-       anc = root;
+     if(left && right)
        return root;
-     }
-
-     if(root == p || root==q || left || right){
-       return root;
-     }
-     
-     return NULL;
+     else
+       return left?left:right;        
     }
 
 
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* _p, TreeNode* _q) {
-        p = _p;
-        q = _q;
-        find(root);
-        return anc;
+        p = _p;  q = _q;
+        return find(root);
     }
 };
