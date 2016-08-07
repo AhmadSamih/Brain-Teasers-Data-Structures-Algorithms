@@ -13,7 +13,6 @@ public:
         
         queue<pair<TreeNode*,int>>q;
         vector<vector<int>>res; if(!root) return res;
-        int depth = 1;
         q.emplace(root,1);
 
         vector<int>lev;
@@ -29,19 +28,19 @@ public:
             if(tmp->right)
                 q.emplace(tmp->right, d+1);
             
+            //if(d != last_level && lev.size()){
             if(d != last_level){
-                if(lev.size()) 
-                    res.insert(res.begin(), lev);
-                lev.clear();
-                lev.push_back(tmp->val);
-            }else{
-                lev.push_back(tmp->val);
-            }
+                res.insert(res.begin(), {tmp->val});
+            }else
+            //lev.push_back(tmp->val);
+            res[0].push_back(tmp->val);
+            
             last_level = d;
         }
         
-        if(lev.size())
-            res.insert(res.begin(), lev);
+        //if(lev.size())
+            //res.insert(res.begin(), lev);
+            
         return res;
     }
 };
