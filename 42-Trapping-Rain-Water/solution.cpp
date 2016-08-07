@@ -1,28 +1,17 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        vector<pair<int,int>>R(height.size(), pair<int,int>(0,0));
-        vector<pair<int,int>>L(height.size(), pair<int,int>(0,0));
+        vector<int>R(height.size(),0);
+        vector<int>L(height.size(),0);
         
-        for(int i=height.size()-2; i>=0; i--){
-            if(height[i+1] > R[i+1].first)
-                R[i].first = height[i+1], R[i].second = i+1;
-            else
-                R[i].first = R[i+1].first, R[i].second = R[i+1].second;    
-        }
-
-        for(int i=1; i<height.size(); i++){
-            if(height[i-1] > L[i-1].first)
-                L[i].first = height[i-1], L[i].second = i-1;
-            else
-                L[i].first = L[i-1].first, L[i].second = L[i-1].second;    
-        }
-        
-
+        for(int i=height.size()-2; i>=0; i--)
+            R[i] = max(height[i+1],R[i+1]);
+        for(int i=1; i<height.size(); i++)
+            L[i] = max(height[i-1],L[i-1]);
+            
         int sum = 0;
         for(int i=0; i<height.size();i++){
-            int m = min(R[i].first, L[i].first) - height[i];
-            if(m>0) sum +=m;
+            sum += max(0, min(R[i], L[i]) - height[i]);
         }
         return sum;
         
