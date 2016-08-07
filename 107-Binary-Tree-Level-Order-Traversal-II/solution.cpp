@@ -28,19 +28,14 @@ public:
             if(tmp->right)
                 q.emplace(tmp->right, d+1);
             
-            //if(d != last_level && lev.size()){
-            if(d != last_level){
+            if(d != last_level)
                 res.insert(res.begin(), {tmp->val});
-            }else
-            //lev.push_back(tmp->val);
-            res[0].push_back(tmp->val);
+            else
+                res[0].push_back(tmp->val);
             
             last_level = d;
         }
         
-        //if(lev.size())
-            //res.insert(res.begin(), lev);
-            
         return res;
     }
 };
