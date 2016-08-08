@@ -14,19 +14,15 @@ public:
         if(!root)return;
         
         if(!root->left && !root->right) {
-            path = path+"->" + to_string(root->val);
-            res.push_back(path);
+            res.push_back(path  + (path.empty() ? "" : "->") + to_string(root->val));
             return;
         }
         
-        dfs(root->left, path + "->" + to_string(root->val));
-        dfs(root->right, path + "->" + to_string(root->val));
+        dfs(root->left, path  + (path.empty() ? "" : "->") + to_string(root->val));
+        dfs(root->right, path + (path.empty() ? "" : "->") + to_string(root->val));
     }
     vector<string> binaryTreePaths(TreeNode* root) {
-        if(!root) return vector<string>();
-        if(!root->left && !root->right) return {to_string(root->val)};
-        dfs(root->left, to_string(root->val));
-        dfs(root->right, to_string(root->val));
+        dfs(root, "");
         return res;
     }
 };
