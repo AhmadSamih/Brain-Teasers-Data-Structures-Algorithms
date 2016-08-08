@@ -13,9 +13,8 @@ public:
     int dfs(TreeNode* root, int depth){
         if(!root) return depth;
         
-        depth++;
-        int left = dfs(root->left, depth);
-        int right = dfs(root->right, depth);
+        int left = dfs(root->left, depth+1);
+        int right = dfs(root->right, depth+1);
         
         if(abs(left-right)>1)
             isB=false;
