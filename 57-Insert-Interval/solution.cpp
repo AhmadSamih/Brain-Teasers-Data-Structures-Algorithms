@@ -9,14 +9,12 @@
  */
 class Solution {
 public:
-    static bool comp(Interval& a, Interval& b){
-         return a.start < b.start;
-     }
-     
+
     vector<Interval> insert(vector<Interval>& intervals, Interval newInterval) {
       vector<Interval> res;
-      //intervals.insert(lower_bound(intervals.begin(), intervals.end(), comp),newInterval);
-      int start = 0;
+      //auto itr = lower_bound(intervals.begin(), intervals.end(), newInterval,[](Interval& a, Interval& b){return a.start < b.start;});
+      //intervals.insert(itr,newInterval);
+      /*int start = 0;
       int end = intervals.size()-1;
       int mid;
       while(start<=end && intervals.size()>0){
@@ -32,7 +30,9 @@ public:
         intervals.push_back(newInterval);
       else
         intervals.insert(intervals.begin()+start, newInterval);
-      //sort(intervals.begin(), intervals.end(), comp);
+    */
+      intervals.insert(intervals.begin(),newInterval);
+      sort(intervals.begin(), intervals.end(), [](Interval& a, Interval& b){return a.start < b.start;});
       //sort intervals based on the start index
       
        res.push_back(intervals[0]);
