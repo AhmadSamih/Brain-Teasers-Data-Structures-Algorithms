@@ -17,7 +17,7 @@
  */
 class Solution {
 public:
-    stack<std::vector<NestedInteger>::iterator> stk_b;
+/*    stack<std::vector<NestedInteger>::iterator> stk_b;
     stack<std::vector<NestedInteger>::iterator> stk_e;
     int depthSum(vector<NestedInteger>& nestedList) {
         if(nestedList.empty()) return 0;
@@ -40,4 +40,22 @@ public:
         }
         return sum;
     }
+*/
+    void dfs(vector<NestedInteger>& nestedList, int depth, int& sum){
+        if(nestedList.empty()) return;
+        for(int i=0; i<nestedList.size();i++){
+            if(nestedList[i].isInteger()){
+                sum += nestedList[i].getInteger()*depth;
+            }else{
+                dfs(nestedList[i].getList(), depth+1, sum);
+            }
+        }
+    }
+    
+    int depthSum(vector<NestedInteger>& nestedList) {
+        int sum = 0;
+        dfs(nestedList, 1, sum);
+        return sum;
+    }
+    
 };
