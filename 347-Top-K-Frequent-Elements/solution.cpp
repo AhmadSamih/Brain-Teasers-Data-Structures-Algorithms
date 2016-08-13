@@ -15,16 +15,15 @@ public:
       }
     };
     
-    priority_queue<heapNode*, vector<heapNode*>, greatThan> maxH;
-    unordered_map<int,int>cache;
     
     vector<int> topKFrequent(vector<int>& nums, int k) {
-        
         vector<int> res;
-        for(int i = 0; i< nums.size(); i++){
-            cache[nums[i]]++;
-        }    
-       
+        priority_queue<heapNode*, vector<heapNode*>, greatThan> maxH;
+        unordered_map<int,int>cache;
+
+        for(auto &num:nums)
+            cache[num]++;
+
         for(auto itr = cache.begin(); itr!=cache.end(); itr++){
             heapNode * x = new heapNode(itr->first, itr->second);
             maxH.push(x);
