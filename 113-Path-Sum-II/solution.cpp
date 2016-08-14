@@ -14,7 +14,7 @@ public:
         
         path.push_back(root->val);
         if(!root->left && !root->right && sum==root->val)
-            res.push_back(path);
+            res.push_back(path);//its ok to return from here, but if you pass path by reference, then if you return, it wouldn't pop back
 
         PathSum(root->left, sum-root->val, path, res);
         PathSum(root->right, sum-root->val, path, res);
