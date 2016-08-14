@@ -1,44 +1,26 @@
 class Solution {
 public:
-    int largestRectangleArea(vector<int>& hist) {
-    int n = hist.size();
-    stack<int> s;
- 
-    int max_area = 0; // Initalize max area
-    int tp;  // To store top of stack
-    int area_with_top; // To store area with top bar as the smallest bar
- 
-    // Run through all bars of given histogram
-    int i = 0;
-    while (i < n)
-    {
-        // If this bar is higher than the bar on top stack, push it to stack
-        if (s.empty() || hist[s.top()] <= hist[i])
-            s.push(i++);
- 
-        // If this bar is lower than top of stack, then calculate area of rectangle 
-        // with stack top as the smallest (or minimum height) bar. 'i' is 
-        // 'right index' for the top and element before top in stack is 'left index'
-        else
-        {
-            tp = s.top();  // store the top index
-            s.pop();  // pop the top
-            area_with_top = hist[tp] * (s.empty() ? i : i - s.top() - 1);
-            if (max_area < area_with_top)
-                max_area = area_with_top;
+    int largestRectangleArea(vector<int>& heights) {
+        
+        stack<int>stk; //to store the idx of each bar
+        int m = 0;
+        int i =0;
+        while(i<heights.size()){
+            if(stk.empty() || heights[stk.top()]<=heights[i])
+                stk.push(i++);
+            else{
+                int top = stk.top();
+                stk.pop();
+                m = max(m, heights[top]*(stk.empty()?i : i-stk.top()-1));
+                //note 1: why we need to stk.empty ? because we look up the stk
+            }
         }
-    }
- 
-    // Now pop the remaining bars from stack and calculate area with every
-    // popped bar as the smallest bar
-    while (s.empty() == false)
-    {
-        tp = s.top();
-        s.pop();
-        area_with_top = hist[tp] * (s.empty() ? i : i - s.top() - 1);
-        if (max_area < area_with_top)
-            max_area = area_with_top;
-    }
-    return max_area;
+        
+        while(!stk.empty()){
+                    int top = stk.top();
+                    stk.pop();
+                    m = max(m, heights[top]*(stk.empty()?i : i-stk.top()-1));
+        }
+        return m;
     }
 };
