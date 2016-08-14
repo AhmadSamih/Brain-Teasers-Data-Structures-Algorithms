@@ -17,20 +17,12 @@ public:
             res.push_back(path);
             return ;
         }
-        
-        //if(root->left)
-        {
-            path.push_back(root->val);
-            PathSum(root->left, sum-root->val, path, res);
-            path.pop_back();
-        }
-        
-        //if(root->right)
-        {
-            path.push_back(root->val);
-            PathSum(root->right, sum-root->val, path, res);
-            path.pop_back();
-        }
+
+        path.push_back(root->val);
+        PathSum(root->left, sum-root->val, path, res);
+        PathSum(root->right, sum-root->val, path, res);
+        path.pop_back();
+
     }
     
     vector<vector<int>> pathSum(TreeNode* root, int sum) {
