@@ -18,13 +18,15 @@ public:
             return ;
         }
         
-        if(root->left){
+        //if(root->left)
+        {
             path.push_back(root->val);
             PathSum(root->left, sum-root->val, path, res);
             path.pop_back();
         }
         
-        if(root->right){
+        //if(root->right)
+        {
             path.push_back(root->val);
             PathSum(root->right, sum-root->val, path, res);
             path.pop_back();
