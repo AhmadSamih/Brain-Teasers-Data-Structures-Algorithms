@@ -37,28 +37,28 @@ public:
     }
 
     uint32_t left = 1;
-    stack<NestedInteger> stk;
+    stack<NestedInteger*> stk;
 
     for(uint32_t i=0; i<s.size(); i++){
       char c = s[i];
       if (c == '[') {
-        stk.push(NestedInteger());
+        stk.push(new NestedInteger());
         left = i + 1;
       } else if (c == ',' || c == ']') {
         if (left != i) {
           string tt = s.substr(left, i-left);
-          stk.top().add(NestedInteger(stoi(tt)));
+          stk.top()->add(NestedInteger(stoi(tt)));
         }
         left = i + 1;
         if (c == ']') {
            if(stk.size()>1){//current level nested list has an outer nested list
-                NestedInteger cur = move(stk.top());
+                NestedInteger *cur = stk.top();
                 stk.pop();
-                stk.top().add(cur);
+                stk.top()->add(*cur);
             }
         }
       }
     }
-    return stk.top();
+    return *stk.top();
 }
 };
