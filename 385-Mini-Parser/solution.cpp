@@ -52,7 +52,7 @@ public:
         left = i + 1;
         if (c == ']') {
            if(stk.size()>1){//current level nested list has an outer nested list
-                NestedInteger cur = stk.top();
+                NestedInteger cur = move(stk.top());
                 stk.pop();
                 stk.top().add(cur);
             }
