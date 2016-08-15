@@ -27,26 +27,38 @@
  *     const vector<NestedInteger> &getList() const;
  * };
  */
+
 class Solution {
 public:
     NestedInteger deserialize(string s) {
-        istringstream in(s);
-        return deserialize(in);
+    // Corner case "123"
+    if (s[0] != '[') {
+      return NestedInteger(stoi(s));
     }
-private:
-    NestedInteger deserialize(istringstream &in) {
-        int number;
-        if (in >> number)
-            return NestedInteger(number);
-        in.clear();
-        in.get();
-        NestedInteger list;
-        while (in.peek() != ']') {
-            list.add(deserialize(in));
-            if (in.peek() == ',')
-                in.get();
+
+    uint32_t left = 1;
+    stack<NestedInteger*> stk;
+
+    for(uint32_t i=0; i<s.size(); i++){
+      char c = s[i];
+      if (c == '[') {
+        stk.push(new NestedInteger());
+        left = i + 1;
+      } else if (c == ',' || c == ']') {
+        if (left != i) {
+          string tt = s.substr(left, i-left);
+          stk.top()->add(NestedInteger(stoi(tt)));
         }
-        in.get();
-        return list;
+        left = i + 1;
+        if (c == ']') {
+           if(stk.size()>1){//current level nested list has an outer nested list
+                NestedInteger *cur = stk.top();
+                stk.pop();
+                stk.top()->add(*cur);
+            }
+        }
+      }
     }
+    return *stk.top();
+}
 };
