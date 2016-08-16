@@ -9,11 +9,15 @@
  */
 class Solution {
 public:
+    unordered_map<TreeNode*,int>cache;
+    
     bool isValidBST(TreeNode* root, TreeNode *min, TreeNode *max, int &num) {
            if(!root) return true;
            num+=1;
            if((max && root->val >= max->val) || (min && root->val <= min->val)) return false;
-           return isValidBST(root->left, min, root,num) && isValidBST(root->right, root, max,num);
+           if(isValidBST(root->left, min, root,num) && isValidBST(root->right, root, max,num)){
+            cache[root] = num; return true;}
+            return false;
     }
 
     int largestBSTSubtree(TreeNode* root) {
