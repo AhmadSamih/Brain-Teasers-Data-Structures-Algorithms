@@ -9,18 +9,19 @@
  */
 class Solution {
 public:
-   int count(TreeNode* root){
-       if(!root) return 0;
-       return 1+count(root->left) + count(root->right);
-   }
-    
-   int kthSmallest(TreeNode* root, int k) {
-       int cnt = count(root->left);
-       if(k<=cnt){
-          return kthSmallest(root->left, k);
-       }else if(k>cnt+1){
-           return kthSmallest(root->right, k-cnt-1);
-       }
-       return root->val;
-   }
+    int kthSmallest(TreeNode* root, int& k) {
+        if(root){
+            int x = kthSmallest(root->left, k);
+            if(!k)
+                return x;
+            else{
+                k--;
+                if(!k) 
+                    return root->val;
+                return kthSmallest(root->right, k);
+                }
+            }
+            return -1;
+    }
+
 };
