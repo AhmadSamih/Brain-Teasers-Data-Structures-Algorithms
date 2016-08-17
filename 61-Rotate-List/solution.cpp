@@ -10,9 +10,9 @@ class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
         if(!head)return head;
-        int count = 0;
+        int count = 1;
         ListNode* tmp = head;
-        while(tmp){
+        while(tmp->next){
             tmp = tmp->next;
             count++;
         }
@@ -21,7 +21,6 @@ public:
         if(k==0)return head;
         
         ListNode* n_head;
-        
         ListNode* tail = head;
         int c = count - k - 1;
         while(c--){
@@ -30,12 +29,7 @@ public:
         
         n_head = tail->next;
         tail->next = NULL;
-        
-        ListNode* mid = n_head;
-        while(mid->next){
-            mid = mid->next;
-        }
-        mid->next = head;
+        tmp->next = head;
         
         return n_head;
       
