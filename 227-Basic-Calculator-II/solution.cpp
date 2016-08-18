@@ -1,59 +1,41 @@
 class Solution {
 public:
     int calculate(string s) {
-        
+        s.push_back('+');
         stack<int>stk;
+        string tmp = "";
+        char sign = '+';
         
-        vector<int>nums;
-        vector<string>ops;
-        
-        //how about multi digit numbers ???????
-        
-        
-        char * tmp = strdup(s.c_str());
-        char * token = strtok(tmp, " +-/*");
-        while(token){
-            nums.push_back(stoi(token));
-            token = strtok(NULL, " +-/*");
-        }
-        free(tmp);
-        free(token);
-        
-        
-        ops.push_back("+");
-        tmp = strdup(s.c_str());
-        token = strtok(tmp, " 0123456789");
-        while(token){
-            ops.push_back(token);
-            token = strtok(NULL, " 0123456789");
-        }
-        free(tmp);
-        free(token);
-        
-        for(int i=0; i<ops.size();i++){
-            if(ops[i] == "+") {
-                stk.push(nums[i]);
-            }
-            if(ops[i] == "-") {
-                stk.push(-nums[i]);
-            }
-            if(ops[i] == "*") {
-                int tmp = stk.top();
-                stk.pop();
-                stk.push(tmp*nums[i]);
-            }
-            if(ops[i] == "/") {
-                int tmp = stk.top();
-                stk.pop();
-                stk.push(tmp/nums[i]);
+        for(int i=0; i<s.size();i++){
+            if(isdigit(s[i])){
+                tmp.push_back(s[i]);                            
+                if(i<s.size()-1 && !isdigit(s[i+1])){
+                    int num = stoi(tmp);
+                    if(sign == '+')
+                        stk.push(num);
+                    if(sign == '-')
+                        stk.push(-num);
+                    if(sign == '*'){
+                        int eval = stk.top()*num;
+                        stk.pop(); stk.push(eval);
+                    }
+                    if(sign =='/'){
+                        int eval = stk.top()/num;
+                        stk.pop(); stk.push(eval);
+                    }
+                    tmp.clear();
+                }
+            }else if(s[i]!=' '){
+                sign = s[i];
             }
         }
         
         int sum = 0;
         while(!stk.empty()){
-            sum+= stk.top();
-            stk.pop();        
+            sum+=stk.top();
+            stk.pop();
         }
+        
         return sum;
     }
 };
