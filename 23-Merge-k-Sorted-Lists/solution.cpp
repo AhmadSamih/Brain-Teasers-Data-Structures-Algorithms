@@ -8,36 +8,30 @@
  */
 class Solution {
 public:
-    
-    /*algo works like this: store all k first elements from the lists in a min heap, 
-    store the min somewhere, replace it with another node from the list.*/
-    
+    struct cmp{
+      bool operator()(ListNode* a, ListNode* b){
+          return a->val > b->val;
+      }  
+    };
+
     ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<ListNode*, vector<ListNode*>, cmp> hp;//minheap
         
-        //Using Lambda function
-        auto cmp = [](ListNode* left, ListNode* right) { return (left->val) > (right->val);};
-        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)>heap(cmp);
-    
-        //using functor
-        //struct cmp{ bool operator()(ListNode* left, ListNode* right){return (left->val) > (right->val);}};
-        //priority_queue<ListNode*, vector<ListNode*>,cmp>heap;
-
-        //maintain a k-ary heap
-        for(int i=0; i<lists.size();i++){
+        for(int i=0; i<lists.size(); i++){
             if(lists[i])
-                heap.push(lists[i]);
+                hp.push(lists[i]);
         }
-
-        ListNode *root = new ListNode(0);
-        ListNode *tail = root;
-        //create the resulting list
-        while(!heap.empty()){
-            ListNode *tmp = heap.top(); heap.pop();
-            tail->next = new ListNode(tmp->val);
-            tail = tail->next;
-            if(tmp->next)
-                heap.push(tmp->next);
+        
+        ListNode* phead = new ListNode(0);
+        ListNode* tmp = phead;
+        while(!hp.empty()){
+            tmp->next = new ListNode(hp.top()->val);
+            tmp = tmp->next;
+            if(hp.top()->next)
+                hp.push(hp.top()->next);
+            hp.pop();
         }
-        return root->next;
+        
+        return phead->next;
     }
 };
