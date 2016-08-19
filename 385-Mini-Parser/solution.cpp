@@ -27,38 +27,40 @@
  *     const vector<NestedInteger> &getList() const;
  * };
  */
-
 class Solution {
 public:
     NestedInteger deserialize(string s) {
-    // Corner case "123"
-    if (s[0] != '[') {
-      return NestedInteger(stoi(s));
-    }
-
-    uint32_t left = 1;
-    stack<NestedInteger*> stk;
-
-    for(uint32_t i=0; i<s.size(); i++){
-      char c = s[i];
-      if (c == '[') {
-        stk.push(new NestedInteger());
-        left = i + 1;
-      } else if (c == ',' || c == ']') {
-        if (left != i) {
-          string tt = s.substr(left, i-left);
-          stk.top()->add(NestedInteger(stoi(tt)));
-        }
-        left = i + 1;
-        if (c == ']') {
-           if(stk.size()>1){//current level nested list has an outer nested list
-                NestedInteger *cur = stk.top();
-                stk.pop();
-                stk.top()->add(*cur);
+        if(s.size() == 0)
+            return NestedInteger();
+        if(s[0] != '[')
+            return NestedInteger(stoi(s));
+            
+        stack<NestedInteger>stk;
+        //keep left,right ptrs to extract number
+        int left = 0;
+        for(int i =0; i<s.size(); i++){
+            if(s[i] == '['){
+                left = i+1;
+                stk.push(NestedInteger());
+            }else if(s[i] == ']'){
+                //check if 
+                if(left != i)
+                    stk.top().add(NestedInteger(stoi(s.substr(left, i-left))));
+                
+                if(stk.size()>1){
+                    auto tmp = stk.top();
+                    stk.pop();
+                    stk.top().add(tmp);
+                }
+                left = i+1;
+            }else if(s[i] == ','){
+                if(left != i)
+                    stk.top().add(NestedInteger(stoi(s.substr(left, i-left))));
+                left = i+1;
             }
         }
-      }
+        
+        return stk.top();
     }
-    return *stk.top();
-}
 };
+
