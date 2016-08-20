@@ -9,7 +9,8 @@ public:
       TrieNode* child[26];  
       string word;
       TrieNode(){
-          for(auto &x : child)x=NULL;
+          for(auto &x : child)
+            x=NULL;
           word.clear();
       }
     };
@@ -21,8 +22,8 @@ public:
         TrieNode *tmp = head;
         for(uint32_t i= 0; i<w.size(); i++){
             int pos = w[i] - 'a';
-            //cout<<w[i]<<endl;
-            if(tmp->child[pos] == NULL) tmp->child[pos] = new TrieNode();
+            if(tmp->child[pos] == NULL) 
+                tmp->child[pos] = new TrieNode();
             tmp = tmp->child[pos];
         }
         tmp->word = w;
@@ -38,18 +39,16 @@ public:
     
     bool df(int idx, TrieNode *p){
         for(uint32_t i=idx; i<word.size(); i++){
-            if(word[i] == '.'){
-                for(auto &x:p->child){
-                    if(x != NULL){
-                        if(df(i+1, x)) return true;
-                    }
-                }
-              return false;
-            }else{
+            if(word[i] != '.'){
                 int c = word[i] - 'a';
                 if(!p->child[c]) 
                     return false;
-                p= p->child[c];
+                p = p->child[c];
+            }else{
+                for(auto &x:p->child)
+                    if(x != NULL && df(i+1, x))
+                        return true;
+                return false;
             }
         }
         return (!p->word.empty());
