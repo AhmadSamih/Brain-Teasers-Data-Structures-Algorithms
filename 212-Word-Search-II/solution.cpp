@@ -1,61 +1,65 @@
 class Solution {
 public:
-
-    struct TrieNode{
-      TrieNode* p[26];  
+    struct trie{
+      trie* p[26];
       string word;
-      TrieNode(){
-          for(auto &x : p)x=NULL;
-          word.clear();
+      trie(){
+        for(auto &x:p)
+            x = NULL;
+        word.clear();
       }
     };
-
-    TrieNode * head;
-    
-    void add_word(string w){
-        TrieNode *tmp = head;
-        for(int i= 0; i<w.size(); i++){
-            int pos = w[i]- 'a';
-            if(tmp->p[pos] == NULL) tmp->p[pos] = new TrieNode();
-            tmp = tmp->p[pos];
+     void add_word(string w, trie* tmp){
+         trie*head = tmp;
+        for(int i=0;i<w.size();i++){
+            int c = w[i]-'a';
+            if(!head->p[c])
+                head->p[c] = new trie();
+            head = head->p[c];
         }
-        tmp->word = w;
+        head->word = w;
     }
+   
 
-    void dfs(TrieNode *n, int x, int y, int xdim, int ydim, vector<vector<char>>&board, vector<string>& res){
-        if(!n->word.empty()){
-            res.push_back(n->word);
-            n->word.clear(); //invalidate so we don't match on it again to prevent duplicates
+    vector<string> res;
+    void DFS(vector<vector<char>>& board, int x, int y, int xx, int yy, trie*head){
+        if(!head->word.empty()){
+            res.push_back(head->word);
+            head->word.clear();
         }
-        
+
         char c = board[x][y];
-        board[x][y] = '*'; //mark as visited
+        board[x][y] = '#';
         
-        int nbrs[][2] = {{-1,0},{1,0},{0,-1},{0,1}};
-        for(int i=0 ;i<4; i++){
-            int d0 = x + nbrs[i][0];
-            int d1 = y + nbrs[i][1];
-            if(d0>=0 && d0<xdim && d1>=0 && d1<ydim && board[d0][d1]!='*' && n->p[board[d0][d1]-'a']){
-                dfs(n->p[board[d0][d1]-'a'], d0 , d1, board.size(), board[0].size(), board,res);
+        int dim[][2] = {{-1,0},{1,0},{0,1},{0,-1}};        
+        for(int i=0; i<4; i++){
+            int xp = x+ dim[i][0];
+            int yp = y+ dim[i][1];
+            if(xp < xx && xp>=0 && yp>=0 && yp<yy && board[xp][yp]!='#' && head->p[board[xp][yp]-'a']){
+                DFS(board, xp, yp, xx, yy,head->p[board[xp][yp]-'a']);
             }
         }
-        board[x][y] = c; //backtrack
+        
+        board[x][y] = c;
     }
-    
-    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
-        vector<string> res;
-        if(!board.size() || !board[0].size() || !words.size())return res;
-        head = new TrieNode();
-        for(auto &x:words) add_word(x);
 
-        for(int i=0 ;i<board.size(); i++){
-            for(int j=0; j<board[0].size();j++){
-                int c = board[i][j]-'a';
-                if(head->p[c])
-                    dfs(head->p[c], i , j, board.size(), board[0].size(), board,res);
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        if(board.size()==0 || board[0].size()==0 || words.empty()) return res;
+        
+        trie* head = new trie();
+        for(auto &w:words)
+            add_word(w,head);
+
+        int x = board.size();
+        int y = board[0].size();
+        
+        for(int i=0; i<x; i++){
+            for(int j=0; j<y; j++){
+                if(head->p[board[i][j]-'a'])
+                    DFS(board, i, j, x, y, head->p[board[i][j]-'a']);
             }
         }
-        return res;
         
+        return res;
     }
 };
