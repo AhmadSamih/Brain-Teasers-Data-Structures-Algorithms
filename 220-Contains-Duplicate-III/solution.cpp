@@ -5,7 +5,7 @@ public:
          
          vector<pair<int,int>> v;
          for(int i = 0; i < nums.size(); i++)
-             v.push_back(make_pair(nums[i],i));
+             v.emplace_back(nums[i],i);
 
          sort(v.begin(),v.end(),[](pair<int,int>&a, pair<int,int>&b){return a.first < b.first;});
          
