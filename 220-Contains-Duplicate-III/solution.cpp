@@ -1,21 +1,24 @@
 class Solution {
 public:
     bool containsNearbyAlmostDuplicate(vector<int>& nums, int k, int t) {
-        
-        vector<int>dq;
-        for(int i=0; i<nums.size(); i++){
-            //find if the diff of less than t exists
-            auto itr = lower_bound(dq.begin(), dq.end(), nums[i]-t);
-            if(itr != dq.end() && abs(*itr-nums[i])<=t) return true;
+         if(nums.size() < 2) return false;
+         vector<pair<int,int>> v;
+         for(int i = 0; i < nums.size(); i++)
+             v.push_back(make_pair(nums[i],i));
 
-            //push new one to deque
-            dq.insert(lower_bound(dq.begin(), dq.end(), nums[i]), nums[i]);
-            
-            //elimintate first if bigger than k
-            if(dq.size()>k)
-                dq.erase( find(dq.begin(), dq.end(), nums[i-k]) );
-        }
-        return false;
+         sort(v.begin(),v.end(),[](pair<int,int>&a, pair<int,int>&b){return a.first < b.first;});
+         
+         for(int i = 0; i < nums.size(); i++){
+             int j = i + 1;
+             while(j < v.size()){
+                 if(abs((long)v[j].first-(long)v[i].first) > t)  break;
+                 else if(abs(v[i].second-v[j].second) <= k){
+                     return true;
+                 }
+                 else
+                     j++;
+             }
+         }
+         return false;
     }
 };
-        
